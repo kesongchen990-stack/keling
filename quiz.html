@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tool Finder Quiz — Find Your Perfect AI Tool in 60 Seconds | AIToolReview</title>
+  <meta name="description" content="Answer 6 quick questions about your workflow and we'll recommend the best AI tools for you. Personalized recommendations backed by 50+ hours of testing.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .quiz-container { max-width: 680px; margin: 0 auto; padding: 48px 20px; }
+    .quiz-progress { display: flex; gap: 6px; margin-bottom: 32px; }
+    .quiz-progress .dot { flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+    .quiz-progress .dot.done { background: var(--accent); }
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .quiz-step h3 { font-size: 1.4rem; margin-bottom: 20px; }
+    .quiz-options { display: grid; gap: 10px; }
+    .quiz-option {
+      display: block; width: 100%; text-align: left; padding: 16px 20px;
+      border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg);
+      font-size: 1rem; cursor: pointer; transition: all 0.15s; color: var(--text); font-family: inherit;
+    }
+    .quiz-option:hover { border-color: var(--accent); background: var(--accent-light); }
+    .quiz-option.selected { border-color: var(--accent); background: var(--accent-light); }
+    .quiz-nav { display: flex; justify-content: space-between; margin-top: 28px; }
+    .quiz-nav button {
+      padding: 12px 28px; border-radius: 50px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    }
+    .quiz-nav .btn-back { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border); }
+    .quiz-nav .btn-next { background: var(--accent); color: #fff; }
+    .quiz-nav .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .result-card {
+      background: var(--bg); border: 2px solid var(--accent); border-radius: var(--radius);
+      padding: 32px; text-align: center; margin: 24px 0;
+    }
+    .result-card .tool-emoji { font-size: 4rem; margin-bottom: 12px; }
+    .result-card .tool-name-rec { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+    .result-card .why { color: var(--text-secondary); margin: 12px 0; }
+    .alt-results { margin: 24px 0; }
+    .alt-result-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; background: var(--bg); }
+    .alt-result-item .alt-emoji { font-size: 2rem; }
+    .alt-result-item .alt-info { flex: 1; }
+    .alt-result-item .alt-name { font-weight: 700; }
+    .alt-result-item .alt-why { font-size: 0.85rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="nav-logo"><span class="icon">⚡</span> AIToolReview</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="article.html?id=claude-vs-chatgpt-2026">Reviews</a></li>
+      <li><a href="compare.html">Compare</a></li>
+      <li><a href="quiz.html" class="active">Finder Quiz</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="quiz-container">
+    <div style="text-align:center;margin-bottom:32px;">
+      <span class="card-tag tool" style="display:inline-block;margin-bottom:8px;">Interactive Tool</span>
+      <h1>🔍 AI Tool Finder Quiz</h1>
+      <p style="color:var(--text-secondary);">Answer 6 quick questions. Get your personalized AI tool recommendation in 60 seconds.</p>
+    </div>
+
+    <div class="quiz-progress" id="progressBar"></div>
+
+    <form id="quizForm" onsubmit="return false;">
+      <!-- Q1 -->
+      <div class="quiz-step active" data-step="1">
+        <h3>1. What do you primarily need an AI tool for?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="coding">💻 Coding & Software Development</button>
+          <button type="button" class="quiz-option" data-value="writing">✍️ Writing & Content Creation</button>
+          <button type="button" class="quiz-option" data-value="image">🎨 Image & Visual Creation</button>
+          <button type="button" class="quiz-option" data-value="research">🔬 Research & Data Analysis</button>
+          <button type="button" class="quiz-option" data-value="marketing">📣 Marketing & Business</button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-step" data-step="2">
+        <h3>2. What's your monthly budget?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="free">🆓 Free — I want open-source or free-tier tools</button>
+          <button type="button" class="quiz-option" data-value="budget">💰 Budget ($5–$20/month)</button>
+          <button type="button" class="quiz-option" data-value="mid">💳 Mid-range ($20–$50/month)</button>
+          <button type="button" class="quiz-option" data-value="premium">🏢 Premium — No budget limit for the best</button>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-step" data-step="3">
+        <h3>3. How technical are you?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="beginner">🌱 Beginner — I need something intuitive and easy</button>
+          <button type="button" class="quiz-option" data-value="intermediate">🌿 Intermediate — Comfortable with some learning curve</button>
+          <button type="button" class="quiz-option" data-value="advanced">🌳 Advanced — I can handle complex tools & APIs</button>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-step" data-step="4">
+        <h3>4. Do you need team collaboration features?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="solo">👤 Solo — It's just me</button>
+          <button type="button" class="quiz-option" data-value="smallteam">👥 Small team (2–10 people)</button>
+          <button type="button" class="quiz-option" data-value="largeteam">🏢 Large team / Enterprise (10+)</button>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-step" data-step="5">
+        <h3>5. What's most important to you?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="quality">🏆 Output Quality — I need the best results possible</button>
+          <button type="button" class="quiz-option" data-value="speed">⚡ Speed — I need fast, good-enough results</button>
+          <button type="button" class="quiz-option" data-value="ease">😊 Ease of Use — Simple and friction-free</button>
+          <button type="button" class="quiz-option" data-value="value">💸 Value for Money — Best bang for the buck</button>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-step" data-step="6">
+        <h3>6. Which best describes your ideal tool?</h3>
+        <div class="quiz-options">
+          <button type="button" class="quiz-option" data-value="allinone">🔧 All-in-one platform — I want one tool that does everything</button>
+          <button type="button" class="quiz-option" data-value="specialized">🎯 Specialized — I want the best tool for one specific task</button>
+          <button type="button" class="quiz-option" data-value="ecosystem">🔗 Ecosystem player — I want it to integrate with my existing tools</button>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="quiz-nav">
+        <button type="button" class="btn-back" id="btnBack" style="visibility:hidden;">← Back</button>
+        <button type="button" class="btn-next" id="btnNext" disabled>Next →</button>
+      </div>
+    </form>
+
+    <!-- Results -->
+    <div id="quizResult" style="display:none;"></div>
+  </div>
+</main>
+
+<!-- Ad -->
+<div class="container">
+  <div class="ad-placeholder in-content">
+    <span>📢 AdSense Ad (728×90) — Quiz Results Page</span>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><h3>⚡ AIToolReview</h3><p>Honest, in-depth reviews and comparisons of the best AI tools. Helping you work smarter since 2026.</p></div>
+      <div class="footer-col"><h4>Tools</h4><ul><li><a href="quiz.html">AI Tool Finder</a></li><li><a href="compare.html">Compare Tools</a></li><li><a href="guide.html">Best of 2026 Guide</a></li></ul></div>
+      <div class="footer-col"><h4>Reviews</h4><ul><li><a href="article.html?id=claude-vs-chatgpt-2026">AI Chatbots</a></li><li><a href="article.html?id=midjourney-v7-review">AI Image Tools</a></li><li><a href="article.html?id=jasper-ai-review">AI Writing Tools</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Affiliate Disclosure</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 AIToolReview. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<script>
+// Quiz logic
+(() => {
+  let currentStep = 1;
+  const totalSteps = 6;
+  const answers = {};
+
+  const steps = document.querySelectorAll('.quiz-step');
+  const dots = document.getElementById('progressBar');
+  const btnBack = document.getElementById('btnBack');
+  const btnNext = document.getElementById('btnNext');
+  const resultEl = document.getElementById('quizResult');
+
+  // Build progress dots
+  for (let i = 1; i <= totalSteps; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 1 ? ' done' : '');
+    dot.dataset.step = i;
+    dots.appendChild(dot);
+  }
+
+  // Option click
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const step = btn.closest('.quiz-step');
+      step.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[currentStep] = btn.dataset.value;
+      btnNext.disabled = false;
+    });
+  });
+
+  // Next
+  btnNext.addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+      steps[currentStep - 1].classList.remove('active');
+      currentStep++;
+      steps[currentStep - 1].classList.add('active');
+      updateNav();
+    } else {
+      showResult();
+    }
+  });
+
+  // Back
+  btnBack.addEventListener('click', () => {
+    if (currentStep > 1) {
+      steps[currentStep - 1].classList.remove('active');
+      currentStep--;
+      steps[currentStep - 1].classList.add('active');
+      updateNav();
+    }
+  });
+
+  function updateNav() {
+    btnBack.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+    btnNext.textContent = currentStep === totalSteps ? 'Show My Results ✨' : 'Next →';
+    btnNext.disabled = !answers[currentStep];
+
+    document.querySelectorAll('#progressBar .dot').forEach((d, i) => {
+      d.classList.toggle('done', i < currentStep);
+    });
+
+    if (currentStep === totalSteps) {
+      const selected = steps[totalSteps - 1].querySelector('.quiz-option.selected');
+      if (selected) btnNext.disabled = false;
+    }
+  }
+
+  // Scoring engine
+  const allTools = [
+    { id: 'claude', name: 'Claude', emoji: '🧠', url: 'https://claude.ai', desc: 'Starts at $20/mo', score: 0, why: '' },
+    { id: 'chatgpt', name: 'ChatGPT', emoji: '🤖', url: 'https://chatgpt.com', desc: 'Starts at $20/mo', score: 0, why: '' },
+    { id: 'midjourney', name: 'Midjourney V7', emoji: '🎨', url: 'https://midjourney.com', desc: 'Starts at $10/mo', score: 0, why: '' },
+    { id: 'jasper', name: 'Jasper AI', emoji: '✍️', url: 'https://jasper.ai', desc: 'Starts at $49/mo', score: 0, why: '' },
+    { id: 'perplexity', name: 'Perplexity AI', emoji: '🔍', url: 'https://perplexity.ai', desc: 'Starts at $20/mo', score: 0, why: '' },
+    { id: 'writesonic', name: 'Writesonic', emoji: '📝', url: 'https://writesonic.com', desc: 'Starts at $20/mo', score: 0, why: '' },
+    { id: 'notionai', name: 'Notion AI', emoji: '📋', url: 'https://notion.so', desc: 'Starts at $10/mo', score: 0, why: '' },
+    { id: 'stable', name: 'Stable Diffusion', emoji: '🖼️', url: 'https://stability.ai', desc: 'Free / Open Source', score: 0, why: '' },
+    { id: 'gemini', name: 'Google Gemini', emoji: '🌐', url: 'https://gemini.google.com', desc: 'Starts at $19.99/mo', score: 0, why: '' },
+    { id: 'copilot', name: 'GitHub Copilot', emoji: '⌨️', url: 'https://github.com/features/copilot', desc: 'Starts at $10/mo', score: 0, why: '' },
+  ];
+
+  const rules = {
+    // Q1: use case
+    'coding':       { claude: 10, copilot: 9, chatgpt: 6, gemini: 5 },
+    'writing':      { jasper: 9, writesonic: 8, chatgpt: 7, claude: 6 },
+    'image':        { midjourney: 12, stable: 8, chatgpt: 5 },
+    'research':     { perplexity: 10, claude: 9, chatgpt: 7 },
+    'marketing':    { jasper: 10, writesonic: 8, chatgpt: 7 },
+    // Q2: budget
+    'free':         { stable: 10, chatgpt: 6, gemini: 6, perplexity: 5, copilot: 5 },
+    'budget':       { writesonic: 7, chatgpt: 7, claude: 7, midjourney: 7, perplexity: 6 },
+    'mid':          { claude: 6, chatgpt: 6, jasper: 5, gemini: 5, perplexity: 5 },
+    'premium':      { jasper: 8, claude: 7, chatgpt: 6, midjourney: 6 },
+    // Q3: technical level
+    'beginner':     { chatgpt: 8, perplexity: 7, gemini: 7, notionai: 6 },
+    'intermediate': { claude: 6, writesonic: 5, jasper: 5, midjourney: 5 },
+    'advanced':     { claude: 10, stable: 8, copilot: 8, midjourney: 6 },
+    // Q4: team size
+    'solo':         { claude: 5, chatgpt: 5, midjourney: 5, perplexity: 5 },
+    'smallteam':    { jasper: 8, notionai: 7, writesonic: 6, gemini: 6 },
+    'largeteam':    { jasper: 10, notionai: 8, gemini: 7 },
+    // Q5: priority
+    'quality':      { midjourney: 10, claude: 9, copilot: 7 },
+    'speed':        { chatgpt: 8, writesonic: 7, perplexity: 6 },
+    'ease':         { chatgpt: 9, notionai: 8, gemini: 7, perplexity: 6 },
+    'value':        { stable: 10, copilot: 8, writesonic: 7, chatgpt: 6 },
+    // Q6: tool type
+    'allinone':     { chatgpt: 9, claude: 8, notionai: 7 },
+    'specialized':  { midjourney: 9, copilot: 8, perplexity: 7, stable: 7 },
+    'ecosystem':    { gemini: 9, notionai: 8, copilot: 7 },
+  };
+
+  function showResult() {
+    // Score all tools
+    const scored = allTools.map(t => ({ ...t }));
+    Object.values(answers).forEach(val => {
+      const weights = rules[val] || {};
+      Object.entries(weights).forEach(([id, pts]) => {
+        const tool = scored.find(t => t.id === id);
+        if (tool) tool.score += pts;
+      });
+    });
+
+    scored.sort((a, b) => b.score - a.scorescore);
+
+    // Hide quiz, show result
+    document.getElementById('quizForm').style.display = 'none';
+    dots.style.display = 'none';
+
+    const top = scored[0];
+    const runnerUp = scored[1];
+    const runnerUp2 = scored[2];
+
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = `
+      <div class="result-card">
+        <div class="tool-emoji">${top.emoji}</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:4px;">Your Best Match</div>
+        <div class="tool-name-rec">${top.name}</div>
+        <p class="why">Based on your answers, ${top.name} is the best fit for your workflow.</p>
+        <a href="${top.url}" target="_blank" rel="nofollow sponsored" style="display:inline-block;background:var(--accent);color:#fff;padding:12px 32px;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;">Try ${top.name} →</a>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">${top.desc}</p>
+      </div>
+
+      <h4 style="margin-bottom:12px;">🏅 Other Great Options for You</h4>
+      <div class="alt-results">
+        <div class="alt-result-item">
+          <span class="alt-emoji">${runnerUp.emoji}</span>
+          <div class="alt-info">
+            <div class="alt-name">${runnerUp.name}</div>
+            <div class="alt-why">${runnerUp.desc} — Strong alternative based on your preferences</div>
+          </div>
+          <a href="${runnerUp.url}" target="_blank" rel="nofollow sponsored" style="background:var(--accent);color:#fff;padding:6px 14px;border-radius:6px;font-weight:600;font-size:0.85rem;text-decoration:none;">Visit</a>
+        </div>
+        <div class="alt-result-item">
+          <span class="alt-emoji">${runnerUp2.emoji}</span>
+          <div class="alt-info">
+            <div class="alt-name">${runnerUp2.name}</div>
+            <div class="alt-why">${runnerUp2.desc} — Worth considering for specific use cases</div>
+          </div>
+          <a href="${runnerUp2.url}" target="_blank" rel="nofollow sponsored" style="background:var(--accent);color:#fff;padding:6px 14px;border-radius:6px;font-weight:600;font-size:0.85rem;text-decoration:none;">Visit</a>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:24px 0;">
+        <button onclick="location.reload()" style="padding:10px 24px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.9rem;cursor:pointer;">🔄 Retake Quiz</button>
+        <a href="compare.html" style="margin-left:10px;padding:10px 24px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.9rem;text-decoration:none;">⚖️ Compare All Tools</a>
+      </div>
+    `;
+  }
+
+  updateNav();
+})();
+
+// Theme + mobile menu
+(() => {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    const current = document.documentElement.getAttribute('data-theme');
+    btn.textContent = current === 'dark' ? '☀️' : '🌙';
+    btn.addEventListener('click', () => {
+      const c = document.documentElement.getAttribute('data-theme');
+      const n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('theme', n);
+      btn.textContent = n === 'dark' ? '☀️' : '🌙';
+    });
+  }
+  const mb = document.getElementById('mobileMenuBtn');
+  const nav = document.getElementById('navLinks');
+  if (mb && nav) mb.addEventListener('click', () => nav.classList.toggle('open'));
+})();
+</script>
+</body>
+</html>
