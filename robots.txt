@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://aitoolreview.com/sitemap.xml
+Sitemap: https://kesongchen990-stack.github.io/keling/sitemap.xml
