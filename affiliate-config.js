@@ -1,31 +1,53 @@
 // ===================================================
 // AIToolReview - Affiliate Link Manager
+//
+// HOW TO USE:
+// 1. Register on the platforms listed below (Impact / PartnerStack / ShareASale)
+// 2. After approved, get your referral links from each platform
+// 3. Replace the 'url' below with your affiliate link
+// 4. Done — every page uses these links automatically
+//
+// PLATFORM COVERAGE:
+//
+// ┌─────────────┬───────────────────────────────────────────┐
+// │ Impact.com  │ Midjourney, Runway, Synthesia, Descript,  │
+// │             │ HeyGen, ElevenLabs, Stable Diffusion       │
+// ├─────────────┼───────────────────────────────────────────┤
+// │ PartnerStack│ Jasper AI, Notion AI, Writesonic,         │
+// │             │ Copy.ai, Perplexity AI                    │
+// ├─────────────┼───────────────────────────────────────────┤
+// │ ShareASale  │ Grammarly, GitHub Copilot, Cursor         │
+// └─────────────┴───────────────────────────────────────────┘
+//
 // ===================================================
 
 window.__AFFILIATE__ = {
-  // Global disclosure — shown on every page footer
   disclosure: 'We may earn a commission if you click links and make a purchase, at no extra cost to you.',
 
-  // Affiliate programs
   programs: {
-    claude:       { name: 'Claude',            url: 'https://claude.ai',           tag: '', desc: 'Starts at $20/mo' },
-    chatgpt:      { name: 'ChatGPT',           url: 'https://chatgpt.com',         tag: '', desc: 'Starts at $20/mo' },
-    midjourney:   { name: 'Midjourney V7',     url: 'https://midjourney.com',      tag: '', desc: 'Starts at $10/mo' },
-    jasper:       { name: 'Jasper AI',         url: 'https://jasper.ai',           tag: '', desc: 'Free trial, then $49/mo' },
-    copilot:      { name: 'GitHub Copilot',    url: 'https://github.com/features/copilot', tag: '', desc: 'Free trial, then $10/mo' },
-    elevenlabs:   { name: 'ElevenLabs',        url: 'https://elevenlabs.io',       tag: '', desc: 'Free tier, Pro $5/mo' },
-    cursor:       { name: 'Cursor',            url: 'https://cursor.sh',           tag: '', desc: 'Free tier, Pro $20/mo' },
-    perplexity:   { name: 'Perplexity AI',     url: 'https://perplexity.ai',       tag: '', desc: 'Free tier, Pro $20/mo' },
-    runway:       { name: 'Runway ML',         url: 'https://runwayml.com',        tag: '', desc: 'Free tier, Pro $15/mo' },
-    writesonic:   { name: 'Writesonic',        url: 'https://writesonic.com',      tag: '', desc: 'Free tier, $20/mo' },
-    notionai:     { name: 'Notion AI',         url: 'https://notion.so',           tag: '', desc: 'AI add-on $10/mo' },
-    grammarly:    { name: 'Grammarly',         url: 'https://grammarly.com',       tag: '', desc: 'Free tier, Premium $12/mo' },
-    synthesia:    { name: 'Synthesia',         url: 'https://synthesia.io',        tag: '', desc: 'Starts at $22/mo' },
-    heygen:       { name: 'HeyGen',            url: 'https://heygen.com',          tag: '', desc: 'Free tier, $24/mo' },
-    descript:     { name: 'Descript',          url: 'https://descript.com',        tag: '', desc: 'Free tier, Pro $24/mo' },
-    stable:       { name: 'Stable Diffusion',  url: 'https://stability.ai',        tag: '', desc: 'Free / Open Source' },
-    gemini:       { name: 'Google Gemini',     url: 'https://gemini.google.com',   tag: '', desc: 'Starts at $19.99/mo' },
-    copyai:       { name: 'Copy.ai',           url: 'https://copy.ai',             tag: '', desc: 'Free tier, $49/mo' },
+    // ─── Impact.com (注册: https://impact.com/partners/) ───
+    claude:       { name: 'Claude',            url: 'https://claude.ai',           tag: '', desc: 'Starts at $20/mo', platform: 'direct' },
+    chatgpt:      { name: 'ChatGPT',           url: 'https://chatgpt.com',         tag: '', desc: 'Starts at $20/mo', platform: 'direct' },
+    midjourney:   { name: 'Midjourney V7',     url: 'https://midjourney.com',      tag: '', desc: 'Starts at $10/mo', platform: 'Impact' },
+    runway:       { name: 'Runway ML',         url: 'https://runwayml.com',        tag: '', desc: 'Free tier, Pro $15/mo', platform: 'Impact' },
+    synthesia:    { name: 'Synthesia',         url: 'https://synthesia.io',        tag: '', desc: 'Starts at $22/mo', platform: 'Impact' },
+    descript:     { name: 'Descript',          url: 'https://descript.com',        tag: '', desc: 'Free tier, Pro $24/mo', platform: 'Impact' },
+    heygen:       { name: 'HeyGen',            url: 'https://heygen.com',          tag: '', desc: 'Free tier, $24/mo', platform: 'Impact' },
+    elevenlabs:   { name: 'ElevenLabs',        url: 'https://elevenlabs.io',       tag: '', desc: 'Free tier, Pro $5/mo', platform: 'Impact' },
+    stable:       { name: 'Stable Diffusion',  url: 'https://stability.ai',        tag: '', desc: 'Free / Open Source', platform: 'Impact' },
+    gemini:       { name: 'Google Gemini',     url: 'https://gemini.google.com',   tag: '', desc: 'Starts at $19.99/mo', platform: 'direct' },
+
+    // ─── PartnerStack (注册: https://partnerstack.com/partners/) ───
+    jasper:       { name: 'Jasper AI',         url: 'https://jasper.ai',           tag: '', desc: 'Free trial, then $49/mo', platform: 'PartnerStack' },
+    notionai:     { name: 'Notion AI',         url: 'https://notion.so',           tag: '', desc: 'AI add-on $10/mo', platform: 'PartnerStack' },
+    writesonic:   { name: 'Writesonic',        url: 'https://writesonic.com',      tag: '', desc: 'Free tier, $20/mo', platform: 'PartnerStack' },
+    copyai:       { name: 'Copy.ai',           url: 'https://copy.ai',             tag: '', desc: 'Free tier, $49/mo', platform: 'PartnerStack' },
+    perplexity:   { name: 'Perplexity AI',     url: 'https://perplexity.ai',       tag: '', desc: 'Free tier, Pro $20/mo', platform: 'PartnerStack' },
+
+    // ─── ShareASale (注册: https://www.shareasale.com/) ───
+    grammarly:    { name: 'Grammarly',         url: 'https://grammarly.com',       tag: '', desc: 'Free tier, Premium $12/mo', platform: 'ShareASale' },
+    copilot:      { name: 'GitHub Copilot',    url: 'https://github.com/features/copilot', tag: '', desc: 'Free trial, then $10/mo', platform: 'ShareASale' },
+    cursor:       { name: 'Cursor',            url: 'https://cursor.sh',           tag: '', desc: 'Free tier, Pro $20/mo', platform: 'ShareASale' },
   },
 
   // Build an affiliate link with optional tracking
@@ -38,7 +60,6 @@ window.__AFFILIATE__ = {
     return url;
   },
 
-  // Render a CTA button for affiliate links
   renderCTA: function(programKey, containerEl) {
     const p = this.programs[programKey];
     if (!p || !containerEl) return;
@@ -50,7 +71,6 @@ window.__AFFILIATE__ = {
       </div>`;
   },
 
-  // Render disclosure text
   renderDisclosure: function(containerEl) {
     if (!containerEl) return;
     containerEl.innerHTML = `<em style="font-size:0.8rem;color:var(--text-muted);">Disclosure: ${this.disclosure}</em>`;
